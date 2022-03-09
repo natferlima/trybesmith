@@ -1,8 +1,8 @@
-import connection from '../models/connection';
-import User from '../interfaces/User';
+import connection from './connection';
+import User from '../interfaces/user';
 
 const getAll = async (): Promise<User[]> => {
-  const [result] = await connection.execute('SELECT * FROM Trybesmith.Users');
+  const [result] = await connection.execute('SELECT * FROM Users');
   return result as User[];
 };
 
