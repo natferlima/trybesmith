@@ -10,7 +10,6 @@ router
   .post('/', requiredFieldsLogin, loginValidate, async (req, res) => {
     const { username, password } = req.body;
     const result = await userModel.getLoginUser({ username, password });
-    console.log(result);
     const token = jwt.sign({ id: result.id, username }, 'SECRET', {
       algorithm: 'HS256',
       expiresIn: '1d',
