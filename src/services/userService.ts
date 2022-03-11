@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel';
-import { NewUser } from '../interfaces/user';
+import { User, NewUser } from '../interfaces/user';
 
 dotenv.config();
 
@@ -15,6 +15,12 @@ const createUser = async (newUser: NewUser) => {
   return token;
 };
 
+const getAll = async (): Promise<User[]> => {
+  const result = await userModel.getAll();
+  return result;
+};
+
 export default {
   createUser,
+  getAll,
 };

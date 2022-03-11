@@ -1,5 +1,4 @@
 import express from 'express';
-import userModel from '../models/userModel';
 import userService from '../services/userService';
 import { User } from '../interfaces/user';
 import requiredFields from '../middlewares/requiredFields';
@@ -10,7 +9,7 @@ const router = express.Router();
 
 router
   .get('/', async (req, res) => {
-    const result: User[] = await userModel.getAll();
+    const result: User[] = await userService.getAll();
     res.status(200).json(result);
   })
   .post('/', requiredFields, typeOfFields, lengthFields, async (req, res) => {
