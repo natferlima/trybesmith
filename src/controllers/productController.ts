@@ -19,6 +19,11 @@ router
       const result = await productService.createProduct({ name, amount });
       res.status(201).json(result);
     },
-  );
+  )
+
+  .get('/', tokenValidate, async (req, res) => {
+    const result = await productService.getAll();
+    res.status(200).json(result);
+  });
 
 export default router;

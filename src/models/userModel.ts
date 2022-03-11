@@ -14,7 +14,7 @@ const create = async (newUser: NewUser): Promise<User> => {
 };
 
 const getAll = async (): Promise<User[]> => {
-  const [result] = await connection.execute('SELECT * FROM Users');
+  const [result] = await connection.execute('SELECT * FROM Trybesmith.Users');
   return result as User[];
 };
 
