@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import loginValidate from '../middlewares/loginValidate';
 import requiredFieldsLogin from '../middlewares/requiredFieldsLogin';
-import userModel from '../models/userModel';
+import loginService from '../services/loginService';
 import { Token } from '../interfaces/token';
 import { NewLogin } from '../interfaces/login';
 
@@ -15,7 +15,7 @@ router
     loginValidate,
     async (req: Request, res: Response<Token>) => {
       const { username, password } = req.body as NewLogin;
-      const result = await userModel.getLoginUser({ username, password });
+      const result = await loginService.getLoginUser({ username, password });
       const token = jwt.sign({ id: result.id, username }, 'SECRET', {
         algorithm: 'HS256',
         expiresIn: '1d',
