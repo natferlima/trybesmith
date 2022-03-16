@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { OrderObject } from '../interfaces/order';
+import { Order, OrderObject } from '../interfaces/order';
 import productsArrayLength from '../middlewares/productsArrayLength';
 import productsArrayValidate from '../middlewares/productsArrayValidate';
 import productsIsArray from '../middlewares/productsIsArray';
@@ -29,9 +29,17 @@ router
     '/:id',
     tokenValidate,
     verifyExistsOrder,
-    async (req, res) => {
+    async (req: Request, res: Response<Order>) => {
       const { id } = req.params;
       const result = await orderService.getByIdWithProducts(id);
+      res.status(200).json(result);
+    },
+  )
+  .get(
+    '/',
+    tokenValidate,
+    async (req, res) => {
+      const result = await orderService.getAllWithProducts();
       res.status(200).json(result);
     },
   );

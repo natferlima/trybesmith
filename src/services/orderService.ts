@@ -1,6 +1,6 @@
 import orderModel from '../models/orderModel';
 import productModel from '../models/productModel';
-import { Order, NewOrder, OrderObject } from '../interfaces/order';
+import { Order, NewOrder, OrderObject, OrderTable } from '../interfaces/order';
 
 const create = async (newOrder: NewOrder): Promise<OrderObject> => {
   const { products } = newOrder;
@@ -11,7 +11,7 @@ const create = async (newOrder: NewOrder): Promise<OrderObject> => {
   return { order: newOrder };
 };
 
-const getById = async (id: string): Promise<[]> => {
+const getById = async (id: string): Promise<OrderTable[]> => {
   const result = await orderModel.getById(id);
   return result;
 };
@@ -22,8 +22,20 @@ const getByIdWithProducts = async (id: string): Promise<Order> => {
   return { id: orders[0].orderId, userId: orders[0].userId, products };
 };
 
+const getAllWithProducts = async (): Promise<Order[]> => {
+  const orders = await orderModel.getAll();
+  const result:Array<Order> = [];
+  await Promise.all(orders.map(async (order) => {
+    const orderProducts = await getByIdWithProducts(order.id);
+    result.push(orderProducts);
+  }));
+  console.log(result);
+  return result;
+};
+
 export default {
   create,
   getById,
   getByIdWithProducts,
+  getAllWithProducts,
 };

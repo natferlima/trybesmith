@@ -10,3 +10,8 @@ export interface Order extends NewOrder {
 export interface OrderObject {
   order: NewOrder;
 }
+
+export interface OrderTable {
+  id: string,
+  userId: string,
+}

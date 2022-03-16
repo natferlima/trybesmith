@@ -1,6 +1,6 @@
 import { ResultSetHeader } from 'mysql2';
 import connection from './connection';
-import { Order, NewOrder } from '../interfaces/order'; 
+import { Order, NewOrder, OrderTable } from '../interfaces/order'; 
 import { ProductOrder } from '../interfaces/product';
 
 const create = async (newOrder: NewOrder): Promise<Order> => {
@@ -13,7 +13,7 @@ const create = async (newOrder: NewOrder): Promise<Order> => {
   return { id, userId, products };
 };
 
-const getById = async (id: string): Promise<[]> => {
+const getById = async (id: string): Promise<OrderTable[]> => {
   const [result] = await connection.execute('SELECT * FROM Trybesmith.Orders WHERE id = ?', [
     id,
   ]);
@@ -31,8 +31,14 @@ const getByIdWithProducts = async (id: string): Promise<ProductOrder[]> => {
   return result as ProductOrder[];
 };
 
+const getAll = async (): Promise<OrderTable[]> => {
+  const [result] = await connection.execute('SELECT * FROM Trybesmith.Orders');
+  return result as [];
+};
+
 export default {
   create,
   getById,
   getByIdWithProducts,
+  getAll,
 };
