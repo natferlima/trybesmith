@@ -14,7 +14,11 @@ const create = async (newOrder: NewOrder): Promise<Order> => {
 };
 
 const getById = async (id: string): Promise<OrderTable[]> => {
-  const [result] = await connection.execute('SELECT * FROM Trybesmith.Orders WHERE id = ?', [
+  const [result] = await connection.execute(`
+    SELECT * 
+    FROM Trybesmith.Orders 
+    WHERE id = ? 
+    ORDER BY id ASC`, [
     id,
   ]);
   return result as [];
@@ -25,14 +29,18 @@ const getByIdWithProducts = async (id: string): Promise<ProductOrder[]> => {
     `SELECT p.id, o.userId, p.orderId
       FROM Trybesmith.Orders AS o
       INNER JOIN Trybesmith.Products AS p ON o.id = p.orderId 
-      WHERE p.orderId = ?`,
+      WHERE p.orderId = ?
+      ORDER BY p.orderId ASC`,
     [id],
   );
   return result as ProductOrder[];
 };
 
 const getAll = async (): Promise<OrderTable[]> => {
-  const [result] = await connection.execute('SELECT * FROM Trybesmith.Orders');
+  const [result] = await connection.execute(`
+    SELECT * 
+    FROM Trybesmith.Orders
+    ORDER BY id ASC`);
   return result as [];
 };
 

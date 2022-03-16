@@ -38,7 +38,7 @@ router
   .get(
     '/',
     tokenValidate,
-    async (req, res) => {
+    async (req:Request, res:Response<Order[]>) => {
       const result = await orderService.getAllWithProducts();
       res.status(200).json(result);
     },

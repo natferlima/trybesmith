@@ -24,10 +24,11 @@ const getByIdWithProducts = async (id: string): Promise<Order> => {
 
 const getAllWithProducts = async (): Promise<Order[]> => {
   const orders = await orderModel.getAll();
-  const result:Array<Order> = [];
+  console.log(orders);
+  let result:Array<Order> = [];
   await Promise.all(orders.map(async (order) => {
     const orderProducts = await getByIdWithProducts(order.id);
-    result.push(orderProducts);
+    result = [...result, orderProducts];
   }));
   console.log(result);
   return result;
