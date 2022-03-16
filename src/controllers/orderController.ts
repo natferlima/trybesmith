@@ -4,6 +4,7 @@ import productsArrayLength from '../middlewares/productsArrayLength';
 import productsArrayValidate from '../middlewares/productsArrayValidate';
 import productsIsArray from '../middlewares/productsIsArray';
 import tokenValidate from '../middlewares/tokenValidate';
+import verifyExistsOrder from '../middlewares/verifyExistsOrder';
 import orderService from '../services/orderService';
 import utilities from '../utilities/getIdUser';
 
@@ -22,6 +23,16 @@ router
       const id = utilities.getIdUser(authorization);
       const result = await orderService.create({ userId: id, products });
       res.status(201).json(result);
+    },
+  )
+  .get(
+    '/:id',
+    tokenValidate,
+    verifyExistsOrder,
+    async (req, res) => {
+      const { id } = req.params;
+      const result = await orderService.getByIdWithProducts(id);
+      res.status(200).json(result);
     },
   );
 
